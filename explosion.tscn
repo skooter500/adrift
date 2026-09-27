@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cd4ucm3khtlf5"]
 
 [ext_resource type="AudioStream" uid="uid://biv25b73wi16u" path="res://sounds/explosion.wav" id="1_q7epf"]
+[ext_resource type="Script" path="res://explosion.gd" id="2_script"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7rj46"]
 transparency = 1
@@ -37,6 +38,7 @@ alpha_curve = SubResource("CurveTexture_vxas0")
 [sub_resource type="BoxMesh" id="BoxMesh_7rj46"]
 
 [node name="explosion" type="GPUParticles3D" unique_id=1316610604]
+script = ExtResource("2_script")
 material_override = SubResource("StandardMaterial3D_7rj46")
 emitting = false
 amount = 100

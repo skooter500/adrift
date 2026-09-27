@@ -36,6 +36,7 @@ var score:int = 0
 @onready var music: AudioStreamPlayer3D = $content/AudioStreamPlayer3D
 
 const HIGHSCORE_FILE = "user://highscore.txt"
+const EXPLOSION_SCENE = preload("res://explosion.tscn")
 var highscore:int = 0
 
 
@@ -64,6 +65,17 @@ func save_highscore() -> void:
 		return
 	file.store_string(str(highscore))
 	file.close()
+
+
+## Fire one invisible, silent explosion at start-up so the particle shaders and
+## render pipelines are compiled now instead of freezing the app on the first kill.
+func warm_up_explosion() -> void:
+	var exp = EXPLOSION_SCENE.instantiate()
+	exp.color = Color(0, 0, 0, 0)
+	exp.silent = true
+	exp.position = ufo_spawner.position
+	exp.emitting = true
+	$content.add_child(exp)
 
 
 func start_music() -> void:
@@ -96,6 +108,7 @@ func _ready():
 	super._ready()
 	load_highscore()
 	start_music()
+	warm_up_explosion()
 
 	#for render_model in [%LeftControllerFbRenderModel, %RightControllerFbRenderModel]:
 		#render_model.openxr_fb_render_model_loaded.connect(_on_openxr_fb_render_model_loaded.bind(render_model))

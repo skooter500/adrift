@@ -64,7 +64,7 @@ size = Vector2(100, 100)
 background_mode = 1
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.6
+ambient_light_energy = 0.4
 
 [node name="root" type="Node3D" unique_id=1496378130]
 script = ExtResource("1_m7ycn")
@@ -73,35 +73,8 @@ script = ExtResource("1_m7ycn")
 
 [node name="godot_plushy" parent="content" unique_id=1896223643 instance=ExtResource("5_lw66f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019337118, -0.017654404, -0.49581215)
-
-[node name="label" parent="content" unique_id=427717679 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35123777, -0.052661713, -1.8811563)
-visible = false
-text = "Godó HANDs"
-horizontal_alignment = 1
-
-[node name="label4" parent="content" unique_id=258155036 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35123777, 0.06802264, -1.8811563)
-visible = false
-text = "ON/OFF"
-horizontal_alignment = 1
-
-[node name="label5" parent="content" unique_id=514401683 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019355774, 0.06802264, -1.8811563)
-visible = false
-text = "TOGGLE"
-horizontal_alignment = 1
-
-[node name="label2" parent="content" unique_id=1649182291 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026083082, -0.05301775, -1.8810209)
-visible = false
-text = "Godó HANDs"
-horizontal_alignment = 1
-
-[node name="label3" parent="content" unique_id=989036658 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3963589, 0.2808963, -1.8808005)
-visible = false
-text = "Godó HANDs"
+mass = 6.0
+linear_damp = 3.0
 
 [node name="alien_spawner" type="Node3D" parent="content" unique_id=746262769]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.012749672, -1.0043089)
@@ -119,6 +92,7 @@ mesh = SubResource("SphereMesh_uoiw8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.019686222, -1.4397917)
 modulate = Color(0, 6.436, 4.693, 0.792)
 text = "Swat the Alien Hordz Before It's Too Late!
+Use the Power of Godot to Increase Your SCore
 By @skooter500
 Music @skuarewavexr
 "
@@ -126,7 +100,7 @@ font_size = 200
 horizontal_alignment = 1
 
 [node name="label6" parent="content/label6" unique_id=28635906 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.41220433, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51552844, 0)
 text = "Score: 0"
 font_size = 200
 horizontal_alignment = 1
@@ -139,13 +113,13 @@ font_size = 300
 horizontal_alignment = 1
 
 [node name="wave" parent="content/label6" unique_id=19350030 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26303992, 0)
-text = "Wave:"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.366364, 0)
+text = "Wave: 0"
 font_size = 200
 horizontal_alignment = 1
 
 [node name="label7" parent="content/label6" unique_id=592421307 instance=ExtResource("2_upxjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5568912, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6602153, 0)
 text = "Highscore: 0"
 font_size = 200
 horizontal_alignment = 1
@@ -153,7 +127,7 @@ horizontal_alignment = 1
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="content" unique_id=566514787]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.4038696)
 stream = ExtResource("2_vrcql")
-volume_db = -20.205
+volume_db = -25.666
 
 [node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=811185315]
 

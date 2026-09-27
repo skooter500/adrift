@@ -78,7 +78,7 @@ func _hit(body: Node) -> void:
 
 	var exp:GPUParticles3D = explosion_scene.instantiate()
 	exp.emitting = true
-	exp.material_override.albedo_color = color
+	exp.color = color
 	exp.position = position
 	get_parent().add_child(exp)
 	self.queue_free()
