@@ -6,7 +6,8 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_p4u8u"]
 radius = 0.11541933
 
-[node name="godot_plushy" type="RigidBody3D" unique_id=1896223643]
+[node name="godot_plushy" type="RigidBody3D" unique_id=1896223643 groups=["plushy"]]
+collision_mask = 3
 mass = 10.0
 linear_damp = 5.0
 angular_damp = 5.0

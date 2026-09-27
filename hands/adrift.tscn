@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://du4m2842rn1od"]
 
-[ext_resource type="PackedScene" uid="uid://2i1nqhynnlm0" path="res://hands/button.tscn" id="1_8dgty"]
 [ext_resource type="Script" uid="uid://crwmjbb3daywg" path="res://hands/adrift.gd" id="1_m7ycn"]
 [ext_resource type="PackedScene" uid="uid://cf4fvq6d5wdue" path="res://hands/label.tscn" id="2_upxjf"]
-[ext_resource type="Script" uid="uid://dpam5xwxbmwcv" path="res://hands/recieve_signals.gd" id="3_mh0ar"]
-[ext_resource type="PackedScene" uid="uid://bo3p0qs3gk7ji" path="res://hands/analog.tscn" id="4_m7ycn"]
+[ext_resource type="AudioStream" uid="uid://cvkbabfgclxch" path="res://sounds/if_music_was_easy.ogg" id="2_vrcql"]
 [ext_resource type="PackedScene" uid="uid://gv263vu7wvna" path="res://hands/godot_plushy.tscn" id="5_lw66f"]
 [ext_resource type="Script" uid="uid://cu0cmgtssmqe7" path="res://alien_spawner.gd" id="6_mh0ar"]
 [ext_resource type="Script" uid="uid://ox8smfnahvcm" path="res://hands/xr_camera_3d.gd" id="6_w6otr"]
@@ -21,7 +19,10 @@
 [ext_resource type="PackedScene" uid="uid://djwjeo1w1sydx" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="16_01u3y"]
 [ext_resource type="PackedScene" uid="uid://df5hynbooj1uj" path="res://addons/hand_pose_detector/hand_pose_detector.tscn" id="17_2462f"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="18_ktmbh"]
+[ext_resource type="PackedScene" uid="uid://bcjp8kcgde4cs" path="res://scene_anchor.tscn" id="22_7fwng"]
 [ext_resource type="AudioStream" uid="uid://v5qy4dnxvlql" path="res://sounds/spawn.wav" id="22_lw66f"]
+[ext_resource type="PackedScene" uid="uid://bwo5nq0clfe3c" path="res://scene_global_mesh.tscn" id="23_8wwvl"]
+[ext_resource type="PackedScene" uid="uid://dsfd7xrm6o50p" path="res://spatial_anchor.tscn" id="24_8wwvl"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_uoiw8"]
 radius = 0.05
@@ -51,138 +52,6 @@ height = 0.04
 radius = 0.02
 height = 0.04
 
-[sub_resource type="GDScript" id="GDScript_g7r8d"]
-script/source = "extends StaticBody3D
-
-@onready var label: Label3D = $Label3D
-
-func setup_scene(entity: OpenXRFbSpatialEntity) -> void:
-	var semantic_labels: PackedStringArray = entity.get_semantic_labels()
-
-	var collision_shape = entity.create_collision_shape()
-	if collision_shape:
-		add_child(collision_shape)
-
-	var mesh_instance = entity.create_mesh_instance()
-	if mesh_instance:
-		add_child(mesh_instance)
-"
-
-[sub_resource type="PackedScene" id="PackedScene_bg7yy"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [PackedInt32Array()],
-"names": PackedStringArray("SceneAnchor", "StaticBody3D", "script", "Label3D", "Label3D"),
-"node_count": 2,
-"node_ids": PackedInt32Array(0, 0),
-"node_paths": [NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, -1, 0, 0),
-"variants": [SubResource("GDScript_g7r8d")],
-"version": 3
-}
-
-[sub_resource type="GDScript" id="GDScript_88ywl"]
-script/source = "extends Node3D
-
-const WIREFRAME_MATERIAL: Material = preload(\"res://assets/wireframe-material.tres\")
-
-@onready var static_body: StaticBody3D = $StaticBody3D
-
-var mesh_instance: MeshInstance3D
-
-
-func setup_scene(entity: OpenXRFbSpatialEntity) -> void:
-	var collision_shape = entity.create_collision_shape()
-	if collision_shape:
-		static_body.add_child(collision_shape)
-
-	#mesh_instance = entity.create_mesh_instance()
-	#if mesh_instance:
-	#	mesh_instance.set_surface_override_material(0, WIREFRAME_MATERIAL)
-	#	add_child(mesh_instance)
-
-	# Calling entity.create_mesh_instance() works, however, our wireframe shader only
-	# works right if vertices aren't shared among multiple triangles, so we have to
-	# process the mesh data to ensure that.
-	#var mesh_array: Array = entity.get_triangle_mesh()
-	#if not mesh_array.is_empty():
-		#mesh_instance = MeshInstance3D.new()
-#
-		#var vertices := PackedVector3Array()
-		#vertices.resize(mesh_array[Mesh.ARRAY_INDEX].size())
-		#for i in range(mesh_array[Mesh.ARRAY_INDEX].size()):
-			#vertices[i] = mesh_array[Mesh.ARRAY_VERTEX][mesh_array[Mesh.ARRAY_INDEX][i]]
-#
-		#mesh_array[Mesh.ARRAY_VERTEX] = vertices
-		#mesh_array[Mesh.ARRAY_INDEX] = null
-#
-		#var mesh := ArrayMesh.new()
-		#mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_array)
-		#mesh_instance.mesh = mesh
-#
-		#mesh_instance.set_surface_override_material(0, WIREFRAME_MATERIAL)
-		#add_child(mesh_instance)
-"
-
-[sub_resource type="PackedScene" id="PackedScene_64m4s"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [PackedInt32Array()],
-"names": PackedStringArray("SceneGlobalMesh", "Node3D", "script", "StaticBody3D", "StaticBody3D", "collision_layer"),
-"node_count": 2,
-"node_ids": PackedInt32Array(0, 0),
-"node_paths": [NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, -1, 1, 5, 1, 0),
-"variants": [SubResource("GDScript_88ywl"), 2],
-"version": 3
-}
-
-[sub_resource type="GDScript" id="GDScript_6uc5y"]
-script/source = "extends Node
-
-var xr_interface: XRInterface
-@onready var environment:Environment = $\"../WorldEnvironment\".environment
-
-func recenter():
-	$\"../XROrigin3D/XRCamera3D\".center()
-	pass
-
-func enable_passthrough() -> bool:
-	if xr_interface and xr_interface.is_passthrough_supported():		
-		return xr_interface.start_passthrough()
-	else:
-		var modes = xr_interface.get_supported_environment_blend_modes()
-		if xr_interface.XR_ENV_BLEND_MODE_ALPHA_BLEND in modes:
-			xr_interface.set_environment_blend_mode(xr_interface.XR_ENV_BLEND_MODE_ALPHA_BLEND)
-			return true
-		else:
-			return false
-			
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	xr_interface = XRServer.primary_interface	
-	if xr_interface and xr_interface.is_initialized():
-		print(\"OpenXR initialised successfully\")
-
-		# Turn off v-sync!
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-
-		# Change our main viewport to output to the HMD
-		get_viewport().use_xr = true
-		enable_passthrough()	
-		xr_interface.pose_recentered.connect(recenter)
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
-"
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m2llr"]
 albedo_color = Color(0, 1, 0, 1)
 
@@ -202,26 +71,8 @@ script = ExtResource("1_m7ycn")
 
 [node name="content" type="Node3D" parent="." unique_id=351446812]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="content" unique_id=1727792791]
-
-[node name="recieve_signals" type="Node" parent="content" unique_id=624172061]
-script = ExtResource("3_mh0ar")
-
-[node name="analog" parent="content" unique_id=161052755 instance=ExtResource("4_m7ycn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.23705852, -0.0046572834, -0.49118236)
-visible = false
-
 [node name="godot_plushy" parent="content" unique_id=1896223643 instance=ExtResource("5_lw66f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019337118, -0.017654404, -0.49581215)
-
-[node name="on_off" parent="content" unique_id=1119412009 instance=ExtResource("1_8dgty")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35073173, 0, -1.1077886)
-visible = false
-
-[node name="toggle" parent="content" unique_id=393092532 instance=ExtResource("1_8dgty")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026131094, 0, -1.0990156)
-visible = false
-behavior = 1
 
 [node name="label" parent="content" unique_id=427717679 instance=ExtResource("2_upxjf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35123777, -0.052661713, -1.8811563)
@@ -261,7 +112,48 @@ count = 5
 rate = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="content/alien_spawner" unique_id=216371091]
+visible = false
 mesh = SubResource("SphereMesh_uoiw8")
+
+[node name="label6" parent="content" unique_id=1547840306 instance=ExtResource("2_upxjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.019686222, -1.4397917)
+modulate = Color(0, 6.436, 4.693, 0.792)
+text = "Swat the Alien Hordz Before It's Too Late!
+By @skooter500
+Music @skuarewavexr
+"
+font_size = 200
+horizontal_alignment = 1
+
+[node name="label6" parent="content/label6" unique_id=28635906 instance=ExtResource("2_upxjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.41220433, 0)
+text = "Score: 0"
+font_size = 200
+horizontal_alignment = 1
+
+[node name="label" parent="content/label6" unique_id=418139888 instance=ExtResource("2_upxjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3669281, 0)
+modulate = Color(6.436235, 5.9234986, 0, 0.7921569)
+text = "Alien Hordz"
+font_size = 300
+horizontal_alignment = 1
+
+[node name="wave" parent="content/label6" unique_id=19350030 instance=ExtResource("2_upxjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26303992, 0)
+text = "Wave:"
+font_size = 200
+horizontal_alignment = 1
+
+[node name="label7" parent="content/label6" unique_id=592421307 instance=ExtResource("2_upxjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5568912, 0)
+text = "Highscore: 0"
+font_size = 200
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="content" unique_id=566514787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.4038696)
+stream = ExtResource("2_vrcql")
+volume_db = -20.205
 
 [node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=811185315]
 
@@ -273,6 +165,8 @@ spawn_in_front = NodePath("../../content")
 
 [node name="AudioListener3D" type="AudioListener3D" parent="XROrigin3D/XRCamera3D" unique_id=2071563029]
 current = true
+
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D" unique_id=1418988151]
 
 [node name="left" type="XRNode3D" parent="XROrigin3D" unique_id=857214756]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28372958, 0.03631089, 0)
@@ -311,7 +205,7 @@ bone_idx = 9
 [node name="right_hand" parent="XROrigin3D/left/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D/tip5" index="0" unique_id=1362912656]
 transform = Transform3D(1, 0, -3.7252903e-09, 0, 1.0000002, -2.9802322e-08, 0, -2.9802322e-08, 1.0000005, 0.0037370138, -0.0004246682, 0.00012084842)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="XROrigin3D/left/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D/tip5" unique_id=327108641]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="XROrigin3D/left/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D/tip5" unique_id=327108641 groups=["hand"]]
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="XROrigin3D/left/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D/tip5/CharacterBody3D" unique_id=145019174]
 transform = Transform3D(-3.7252903e-08, 0, 1, 2.9802322e-08, 1.0000002, 0, -1.0000005, -5.9604645e-08, -4.4703484e-08, 0.003736999, -0.010424666, 0.00012084842)
@@ -363,7 +257,7 @@ transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000004, 0, 0, 0)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -0.018, 0)
 shape = SubResource("CapsuleShape3D_p0kt0")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="XROrigin3D/right/RightHandHumanoid2/RightHandHumanoid/Skeleton3D/tip5" unique_id=1698524482]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="XROrigin3D/right/RightHandHumanoid2/RightHandHumanoid/Skeleton3D/tip5" unique_id=1698524482 groups=["hand"]]
 transform = Transform3D(1, 2.2204441e-15, 0, 4.440892e-16, 1, 0, 0, -8.881784e-16, 1, 0, 0, 0)
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="XROrigin3D/right/RightHandHumanoid2/RightHandHumanoid/Skeleton3D/tip5/CharacterBody3D" unique_id=330320486]
@@ -389,14 +283,12 @@ tracker = &"/user/hand_pose_controller/right"
 
 [node name="FunctionPickup" parent="XROrigin3D/right_controller" unique_id=704862470 instance=ExtResource("18_ktmbh")]
 
-[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D" unique_id=908634191]
-default_scene = SubResource("PackedScene_bg7yy")
-auto_create = false
-visible = false
-scenes/global_mesh = SubResource("PackedScene_64m4s")
+[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D" unique_id=1206366889]
+default_scene = ExtResource("22_7fwng")
+scenes/global_mesh = ExtResource("23_8wwvl")
 
-[node name="start_passthrough" type="Node" parent="." unique_id=394152677]
-script = SubResource("GDScript_6uc5y")
+[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D" unique_id=1150450740]
+scene = ExtResource("24_8wwvl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=954595673]
 transform = Transform3D(-0.486978, -0.857167, -0.16768, -0.325568, -1.4231e-08, 0.945518, -0.810468, 0.515038, -0.279066, 0, 0, 0)
@@ -419,12 +311,12 @@ environment = SubResource("Environment_c4jos")
 stream = ExtResource("22_lw66f")
 volume_db = -80.0
 
-[connection signal="value_changed" from="content/on_off" to="content/recieve_signals" method="_on_button_1_value_changed"]
-[connection signal="value_changed" from="content/toggle" to="content/recieve_signals" method="_on_button_2_value_changed"]
 [connection signal="pose_ended" from="XROrigin3D/left/HandPoseDetector" to="XROrigin3D/left" method="_on_hand_pose_detector_pose_ended"]
 [connection signal="pose_started" from="XROrigin3D/left/HandPoseDetector" to="XROrigin3D/left" method="_on_hand_pose_detector_pose_started"]
 [connection signal="pose_ended" from="XROrigin3D/right/HandPoseDetector" to="XROrigin3D/right" method="_on_hand_pose_detector_pose_ended"]
 [connection signal="pose_started" from="XROrigin3D/right/HandPoseDetector" to="XROrigin3D/right" method="_on_hand_pose_detector_pose_started"]
+[connection signal="openxr_fb_scene_capture_completed" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_open_xr_fb_scene_manager_openxr_fb_scene_capture_completed"]
+[connection signal="openxr_fb_scene_data_missing" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_open_xr_fb_scene_manager_openxr_fb_scene_data_missing"]
 
 [editable path="XROrigin3D/left/LeftHandHumanoid2"]
 [editable path="XROrigin3D/left/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D/tip5"]
