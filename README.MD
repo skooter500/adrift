@@ -1,11 +1,11 @@
-# Godó Hands
-
-A starter kit for creating holographic interactions in Godot.
-
-[![YouTube](http://img.youtube.com/vi/zwAYG7cGYbA/0.jpg)](https://www.youtube.com/watch?v=zwAYG7cGYbA)
+# Alien Hordz
 
 
-Uses and included:
+
+[![YouTube](http://img.youtube.com/vi/qNFhzHcGXbY/0.jpg)](https://www.youtube.com/watch?v=qNFhzHcGXbY)
+
+
+Uses:
 
 * Debug Draw 3D
 * Hand Pose Detector
